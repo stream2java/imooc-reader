@@ -57,8 +57,7 @@
         <property name="maxActive" value="20"/>
     </bean>
     <!-- 3. SqlSessionFactoryBean用于根据配置信息创建SqlSessionFactory,不再需要我们自己编码创建 -->
-    <!-- 原生Mybaits与Spring整合
-    <bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">    -->
+    <!-- 原生Mybaits与Spring整合   -->
     <bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="mapperLocations" value="classpath:mappers/*.xml"/>
@@ -70,5 +69,10 @@
         <property name="basePackage" value="com.imooc.reader.mapper"/>
 
     </bean>
+    <!--声明式事务配置-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <tx:annotation-driven transaction-manager="transactionManager"/>
 
 </beans>

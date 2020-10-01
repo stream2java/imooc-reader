@@ -47,5 +47,32 @@
         <property name="suffix" value=".ftl"/>
     </bean>
 
+        <!-- Mybatis與spring整合配置   -->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/imooc_reader?useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=Asia/Shanghai&amp;allowPublicKeyRetrieval=true"/>
+        <property name="username" value="root"/>
+        <property name="password" value="Qas76431"/>
+        <property name="initialSize" value="5"/>
+        <property name="maxActive" value="20"/>
+    </bean>
+    <!-- 3. SqlSessionFactoryBean用于根据配置信息创建SqlSessionFactory,不再需要我们自己编码创建 -->
+    <!-- 原生Mybaits与Spring整合   -->
+    <bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="mapperLocations" value="classpath:mappers/*.xml"/>
+        <!--     mybatis配置位置       -->
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+    </bean>
+        <!--  mybatis掃描器  -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.imooc.reader.mapper"/>
+
+    </bean>
+    <!--声明式事务配置-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <tx:annotation-driven transaction-manager="transactionManager"/>
 
 </beans>
