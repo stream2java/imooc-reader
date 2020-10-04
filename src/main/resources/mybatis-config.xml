@@ -7,4 +7,10 @@
         <setting name="mapUnderscoreToCamelCase" value="true"/>
         <setting name="logImpl" value="STDOUT_LOGGING" />
     </settings>
+    
+    <plugins>
+        <!-- MyBatis-Plus依赖 -->
+        <plugin interceptor="com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor">
+        </plugin>
+    </plugins>
 </configuration>

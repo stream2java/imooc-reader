@@ -14,11 +14,10 @@ public class TestService {
     @Transactional
     public void batchImport() {
         for (int i = 0; i < 5; i++) {
-            if (i == 3) {
-                throw new RuntimeException("運行錯誤測試");
-            }
-            testMapper.insert();
-
+//            if (i == 3) {
+//                throw new RuntimeException("運行錯誤測試");
+//            }
+//            testMapper.insert();
         }
     }
 }
