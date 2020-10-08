@@ -1,7 +1,7 @@
 package com.imooc.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.imooc.entity.Test;
+import com.imooc.reader.entity.Test;
 import com.imooc.reader.mapper.TestMapper;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;

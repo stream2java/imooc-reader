@@ -1,7 +1,7 @@
 package com.imooc.service;
 
 
-import com.imooc.entity.Category;
+import com.imooc.reader.entity.Category;
 
 import java.util.List;
 

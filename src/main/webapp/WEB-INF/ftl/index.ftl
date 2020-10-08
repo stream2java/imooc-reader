@@ -71,14 +71,15 @@
 
         function loadMore(isReset) {
             if (isReset == true) {
+                $("#bookList").html("");
                 $("#nextPage").val(1);
             }
             var nextPage = $("#nextPage").val();
-            // var categoryId= $("#categoryId").val();
-            // var order = $("#order").val();
+            var categoryId = $("#categoryId").val();
+            var order = $("#order").val();
             $.ajax({
                 url: "/books",
-                data: {p: nextPage},
+                data: {p: nextPage, "categoryId": categoryId, "order": order},
                 type: "get",
                 dataType: "json",
                 success: function (json) {
@@ -110,37 +111,68 @@
 
         $(function () {
             loadMore(true);
-        })
-
-
-        $(function () {
-            $.ajax({
-                url: "/books",
-                data: {p: 1},
-                type: "get",
-                dataType: "json",
-                success: function (json) {
-                    console.info(json);
-                    var list = json.records;
-                    for (var i = 0; i < list.length; i++) {
-                        var book = json.records[i];
-                        // var html = "<li>" + book.bookName + "</li>";
-                        //将数据结合tpl模板,生成html
-                        var html = template("tpl", book);
-                        console.info(html);
-                        $("#bookList").append(html);
-                    }
-                    //显示星型评价组件
-                    $(".stars").raty({readOnly: true});
-                }
-            })
 
         })
 
 
+        // $(function () {
+        //     $.ajax({
+        //         url: "/books",
+        //         data: {p: 1},
+        //         type: "get",
+        //         dataType: "json",
+        //         success: function (json) {
+        //             console.info(json);
+        //             var list = json.records;
+        //             for (var i = 0; i < list.length; i++) {
+        //                 var book = json.records[i];
+        //                 // var html = "<li>" + book.bookName + "</li>";
+        //                 //将数据结合tpl模板,生成html
+        //                 var html = template("tpl", book);
+        //                 console.info(html);
+        //                 $("#bookList").append(html);
+        //             }
+        //             //显示星型评价组件
+        //             $(".stars").raty({readOnly: true});
+        //         }
+        //     })
+        //
+        // })
+
+
         $(function () {
+            // $(window).scroll(function () {
+            //     //當前滾動條
+            //     var ScrollY= window.scrollY;
+            //     //文檔案顯示區域
+            //     var InnerH = window.innerHeight;
+            //     //滾動條總高度
+            //     var ScrollH = document.body.scrollHeight;
+            //     if(ScrollY+InnerH*2 >=ScrollH){
+            //         loadMore();
+            //     }
+            // })
             $("#btnMore").click(function () {
                 loadMore();
+            })
+
+            $(".category").click(function () {
+
+                $(".category").removeClass("highlight");
+                $(".category").addClass("text-black-50");
+                $(this).addClass("highlight");
+                var categoryId = $(this).data("category");
+                $("#categoryId").val(categoryId);
+                loadMore(true);
+            })
+
+            $(".order").click(function () {
+                $(".order").removeClass("highlight");
+                $(".category").addClass("text-black-50");
+                $(this).addClass("highlight");
+                var order = $(this).data("order");
+                $("#order").val(order);
+                loadMore(true);
             })
 
         })

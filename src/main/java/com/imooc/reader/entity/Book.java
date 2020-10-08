@@ -1,4 +1,4 @@
-package com.imooc.entity;
+package com.imooc.reader.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -73,11 +73,22 @@ public class Book {
         this.evaluationQuantity = evaluationQuantity;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     private String bookName;
-    private  String subTitle;
-    private  String author;
-    private  String cover;
-    private  Long categoryId;
-    private  Float evaluationScore;
+    private String subTitle;
+    private String author;
+    private String cover;
+    private Long categoryId;
+    private Float evaluationScore;
     private Integer evaluationQuantity;
+    private String description;
+
+
 }
