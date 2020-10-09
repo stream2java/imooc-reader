@@ -1,6 +1,7 @@
 package com.imooc.reader.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -19,6 +20,27 @@ public class Evaluation {
     private String state;
     private String disableReason;
     private Date disableTime;
+    @TableField(exist = false)
+    private Book book;
+
+    public Member getMember() {
+        return member;
+    }
+
+    public void setMember(Member member) {
+        this.member = member;
+    }
+
+    @TableField(exist = false)
+    private Member member;
+
+    public Book getBook() {
+        return book;
+    }
+
+    public void setBook(Book book) {
+        this.book = book;
+    }
 
     public Long getEvaluationId() {
         return evaluationId;

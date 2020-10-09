@@ -1,8 +1,12 @@
 package com.imooc.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.imooc.reader.entity.Book;
 import com.imooc.reader.entity.Evaluation;
+import com.imooc.reader.entity.Member;
+import com.imooc.reader.mapper.BookMapper;
 import com.imooc.reader.mapper.EvaluationMapper;
+import com.imooc.reader.mapper.MemberMapper;
 import com.imooc.service.EvaluationService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -16,13 +20,24 @@ public class EvaluationServiceImpl implements EvaluationService {
 
     @Resource
     EvaluationMapper evaluationMapper;
+    @Resource
+    MemberMapper memberMapper;
+    @Resource
+    BookMapper bookMapper;
     @Override
     public List<Evaluation> selectById(Long bookId) {
+        Book book = bookMapper.selectById(bookId);
         QueryWrapper<Evaluation> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("book_Id",bookId);
         queryWrapper.eq("state","enable");
         queryWrapper.orderByDesc("create_time");
         List<Evaluation> evaluationList = evaluationMapper.selectList(queryWrapper);
+        for (Evaluation eva:evaluationList) {
+            Member member = memberMapper.selectById(eva.getMemberId());
+            eva.setMember(member) ;
+            eva.setBook(book);
+
+        }
         return evaluationList;
     }
 

@@ -123,7 +123,7 @@
         <div>
             <div>
                 <span class="pt-1 small text-black-50 mr-2">${evaluation.createTime?string('MM-dd')}</span>
-                <span class="mr-2 small pt-1">慕粉-126</span>
+                <span class="mr-2 small pt-1">${evaluation.member.nickname}</span>
                 <span class="stars mr-2" data-score="${evaluation.score}"></span>
 
                 <button type="button" data-evaluation-id="${evaluation.evaluationId}"
