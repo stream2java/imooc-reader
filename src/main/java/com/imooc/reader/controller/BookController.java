@@ -47,8 +47,8 @@ public class BookController {
         if (p == null) {
             p = 1;
         }
-        IPage<Book> pageObjeck = bookService.paging(categoryId, order, p, 10);
-        return pageObjeck;
+        IPage<Book> pageObject = bookService.paging(categoryId, order, p, 10);
+        return pageObject;
     }
 
     @GetMapping("/book/{id}")
