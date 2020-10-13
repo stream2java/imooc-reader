@@ -1,12 +1,11 @@
 package com.imooc.reader.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.imooc.reader.entity.Book;
-import com.imooc.reader.entity.Category;
-import com.imooc.reader.entity.Evaluation;
+import com.imooc.reader.entity.*;
 import com.imooc.service.BookService;
 import com.imooc.service.CategoryService;
 import com.imooc.service.EvaluationService;
+import com.imooc.service.MemberService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -23,9 +23,10 @@ public class BookController {
     private CategoryService categoryService;
     @Resource
     private BookService bookService;
-
     @Resource
     private EvaluationService evaluationService;
+    @Resource
+    private MemberService memberService;
 
     @GetMapping("/")
     public ModelAndView showIndex() {
@@ -52,10 +53,15 @@ public class BookController {
     }
 
     @GetMapping("/book/{id}")
-    public ModelAndView showDetail(@PathVariable Long id) {
+    public ModelAndView showDetail(@PathVariable Long id, HttpSession session) {
+        ModelAndView mav = new ModelAndView("/detail");
         Book book = bookService.selectById(id);
         List<Evaluation> evaluationList = evaluationService.selectById(id);
-        ModelAndView mav = new ModelAndView("/detail");
+        Member member = (Member) session.getAttribute("loginMember");
+        if(member !=null){
+            MemberReadState memberReadState = memberService.selectMemberReadState(member.getMemberId(), id);
+            mav.addObject("memberReadState",memberReadState);
+        }
         mav.addObject("book", book);
         mav.addObject("evaluationList",evaluationList);
         return mav;

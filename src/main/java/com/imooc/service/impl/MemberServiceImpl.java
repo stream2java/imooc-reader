@@ -2,7 +2,9 @@ package com.imooc.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.imooc.reader.entity.Member;
+import com.imooc.reader.entity.MemberReadState;
 import com.imooc.reader.mapper.MemberMapper;
+import com.imooc.reader.mapper.MemberReadStateMapper;
 import com.imooc.reader.util.MD5Utils;
 import com.imooc.service.MemberService;
 import com.imooc.service.exception.BussinessException;
@@ -19,6 +21,9 @@ import java.util.Random;
 public class MemberServiceImpl implements MemberService {
     @Resource
     private MemberMapper memberMapper;
+
+    @Resource
+    private MemberReadStateMapper memberReadStateMapper;
 
     @Override
     public Member createMember(String username, String password, String nickname) {
@@ -56,5 +61,14 @@ public class MemberServiceImpl implements MemberService {
 
 
         return member;
+    }
+
+    @Override
+    public MemberReadState selectMemberReadState(Long memberId, Long bookId) {
+        QueryWrapper<MemberReadState> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("member_id",memberId);
+        queryWrapper.eq("book_id",bookId);
+        MemberReadState memberReadState = memberReadStateMapper.selectOne(queryWrapper);
+        return memberReadState;
     }
 }
