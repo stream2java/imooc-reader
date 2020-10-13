@@ -53,6 +53,33 @@
                 <#if memberReadState ??>
                     $("*[data-read-state=${memberReadState.readState}]").addClass("highlight");
                 </#if>
+
+            <#if  !loginMember ??>
+                $("*[data-read-state],#btnEvaluation,*[data-evaluation-id]").click(function () {
+                    //未登入情況提示登入
+                    $("#exampleModalCenter").modal("show");
+                })
+            </#if>
+
+            <#if loginMember ??>
+                $("*[data-read-state]").click(function () {
+                    var readState = $(this).data("read-state");
+                    $.post("/update_read_state",{
+                    memberId:${loginMember.memberId},
+                    bookId:${book.bookId},
+                    readState:readState},function (json) {
+                        if(json.code =="0"){
+                            $("*[data-read-state]").removeClass("highlight");
+                            $("*[data-read-state='"+readState+"']").addClass("highlight");
+
+
+                        }
+                    },"json")
+
+
+                })
+            </#if>
+
         })
     </script>
 </head>

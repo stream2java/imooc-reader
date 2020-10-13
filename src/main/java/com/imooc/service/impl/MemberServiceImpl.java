@@ -9,6 +9,7 @@ import com.imooc.reader.util.MD5Utils;
 import com.imooc.service.MemberService;
 import com.imooc.service.exception.BussinessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
@@ -64,11 +65,33 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    @Transactional(propagation = Propagation.NOT_SUPPORTED,readOnly = true)
     public MemberReadState selectMemberReadState(Long memberId, Long bookId) {
         QueryWrapper<MemberReadState> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("member_id",memberId);
         queryWrapper.eq("book_id",bookId);
         MemberReadState memberReadState = memberReadStateMapper.selectOne(queryWrapper);
         return memberReadState;
+    }
+
+    @Override
+    public MemberReadState updateMemberReadState(Long memberId, Long bookId, Integer readState) {
+        QueryWrapper<MemberReadState> queryWrapper = new QueryWrapper<MemberReadState>();
+        queryWrapper.eq("member_id",memberId);
+        queryWrapper.eq("book_id",bookId);
+        MemberReadState memberReadState = memberReadStateMapper.selectOne(queryWrapper);
+        //無則新增，有則更新
+        if (memberReadState == null){
+            memberReadState = new MemberReadState();
+            memberReadState.setBookId(bookId);
+            memberReadState.setMemberId(memberId);
+            memberReadState.setReadState(readState);
+            memberReadState.setCreateTime(new Date());
+            memberReadStateMapper.insert(memberReadState);
+        }else{
+            memberReadState.setReadState(readState);
+            memberReadStateMapper.updateById(memberReadState);
+        }
+        return null;
     }
 }

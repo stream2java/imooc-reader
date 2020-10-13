@@ -13,5 +13,22 @@ public interface MemberService {
      */
     public Member createMember(String username,String password,String nickname);
     public Member checkLogin(String username,String password);
+
+    /**
+     *
+     * @param memberId 會員編號
+     * @param bookId  圖書編號
+     * @return 閱讀狀態
+     */
     public MemberReadState selectMemberReadState(Long memberId,Long bookId);
+
+    /**
+     *
+     * @param memberId 會員編號
+     * @param bookId   圖書編號
+     * @param readState 閱讀狀態
+     * @return 閱讀狀態
+     */
+    public MemberReadState updateMemberReadState(Long memberId, Long bookId ,Integer readState);
+
 }
