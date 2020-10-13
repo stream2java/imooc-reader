@@ -39,4 +39,22 @@ public class MemberServiceImpl implements MemberService {
         memberMapper.insert(member);
         return member;
     }
+
+    @Override
+    public Member checkLogin(String username, String password) {
+        QueryWrapper<Member> queryWrapper = new QueryWrapper<Member>();
+        queryWrapper.eq("username",username);
+        Member member = memberMapper.selectOne(queryWrapper);
+        if(member ==null){
+            throw new BussinessException("M02","用戶不存在");
+        }
+
+        String md5 = MD5Utils.md5Digest(password, member.getSalt());
+        if(!md5.equals(member.getPassword())){
+            throw new BussinessException("M03","輸入密碼有誤");
+        }
+
+
+        return member;
+    }
 }

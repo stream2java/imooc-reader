@@ -11,4 +11,5 @@ public interface MemberService {
      * @return
      */
     public Member createMember(String username,String password,String nickname);
+    public Member checkLogin(String username,String password);
 }
