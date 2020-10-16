@@ -1,8 +1,9 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>从 0 开始学爬虫-慕课书评网</title>
+    <title>${book.bookName}</title>
     <meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0,user-scalable=no">
     <link rel="stylesheet" href="/resources/bootstrap/bootstrap.css">
     <link rel="stylesheet" href="/resources/raty/lib/jquery.raty.css">
@@ -44,42 +45,68 @@
 
     </style>
     <script>
-        $.fn.raty.defaults.path = './resources/raty/lib/images';
+        $.fn.raty.defaults.path = '/resources/raty/lib/images';
         $(function () {
             $(".stars").raty({readOnly: true});
         })
 
         $(function () {
-                <#if memberReadState ??>
-                    $("*[data-read-state=${memberReadState.readState}]").addClass("highlight");
-                </#if>
-
-            <#if  !loginMember ??>
-                $("*[data-read-state],#btnEvaluation,*[data-evaluation-id]").click(function () {
-                    //未登入情況提示登入
-                    $("#exampleModalCenter").modal("show");
-                })
+            <#if memberReadState ??>
+            //重選閱讀狀態
+            $("*[data-read-state='${memberReadState.readState}']").addClass("highlight");
+            </#if>
+            <#if !loginMember ??>
+            $("*[data-read-state],#btnEvaluation,*[data-evaluation-id]").click(function(){
+                //未登錄情況下提示"需要登錄"
+                $("#exampleModalCenter").modal("show");
+            })
             </#if>
 
             <#if loginMember ??>
-                $("*[data-read-state]").click(function () {
-                    var readState = $(this).data("read-state");
-                    $.post("/update_read_state",{
+            /**
+             * 更新會員閱讀狀態
+             */
+            $("*[data-read-state]").click(function () {
+                //會員閱讀狀態
+                var readState = $(this).data("read-state");
+                //發送請求
+                $.post("/update_read_state", {
                     memberId:${loginMember.memberId},
                     bookId:${book.bookId},
-                    readState:readState},function (json) {
-                        if(json.code =="0"){
-                            $("*[data-read-state]").removeClass("highlight");
-                            $("*[data-read-state='"+readState+"']").addClass("highlight");
+                    readState: readState
+                }, function (json) {
+                    if (json.code == "0") {
+                        $("*[data-read-state]").removeClass("highlight");
+                        $("*[data-read-state='" + readState + "']").addClass("highlight");
+                    }
+                }, "json")
+            });
+
+            $("#btnEvaluation").click(function(){
+                $("#score").raty({});//轉換為星型組件
+                $("#dlgEvaluation").modal("show");//顯示短評對話方塊
+            })
+            //評論對話方塊提交資料
+            $("#btnSubmit").click(function(){
+                var score = $("#score").raty("score");//獲取評分
+                var content = $("#content").val();
+                if(score == 0 || $.trim(content) == ""){
+                    return;
+                }
+                $.post("/evaluate" , {
+                    score : score,
+                    bookId : ${book.bookId},
+                    memberId : ${loginMember.memberId},
+                    content : content
+                },function(json){
+                    if(json.code = "0"){
+                        window.location.reload();//刷新當前頁面
+                    }
+                },"json")
+            })
 
 
-                        }
-                    },"json")
-
-
-                })
             </#if>
-
         })
     </script>
 </head>
@@ -90,7 +117,7 @@
         <ul class="nav">
             <li class="nav-item">
                 <a href="/">
-                    <img src="https://m.imooc.com/static/wap/static/common/img/logo2.png" class="mt-1"
+                    <img src="https://m.imooc.com/static/wap/static/common/img/logo2.png"  class="mt-1"
                          style="width: 100px">
                 </a>
             </li>
@@ -123,7 +150,7 @@
                     <div class="col-6 p-1">
                         <button type="button" data-read-state="2" class="btn btn-light btn-sm  w-100">
                             <img style="width: 1rem;" class="mr-1"
-                                 src="https://img3.doubanio.com/f/talion/78fc5f5f93ba22451fd7ab36836006cb9cc476ea/pics/card/ic_mark_done_s.png"/>看过
+                                 src="https://img3.doubanio.com/f/talion/78fc5f5f93ba22451fd7ab36836006cb9cc476ea/pics/card/ic_mark_done_s.png"/>看過
                         </button>
                     </div>
                 </div>
@@ -134,47 +161,44 @@
             <div class="col-5 pt-2">
                 <span class="stars" data-score="${book.evaluationScore}"></span>
             </div>
-            <div class="col-5  pt-2"><h5 class="text-white">${book.evaluationQuantity}人已评</h5></div>
+            <div class="col-5  pt-2"><h5 class="text-white">${book.evaluationQuantity}人已評</h5></div>
         </div>
     </div>
     <div class="row p-2 description">
         ${book.description}
     </div>
 
-    <br/><img src='https://img2.mukewang.com/5cf640920001c44507504429.jpg'>
-</div>
 
-
-<div class="alert alert-primary w-100 mt-2" role="alert">短评
-    <button type="button" id="btnEvaluation" class="btn btn-success btn-sm text-white float-right"
-            style="margin-top: -3px;">
-        写短评
-    </button>
-</div>
-<div class="reply pl-2 pr-2">
-    <#list evaluationList as evaluation>
-        <div>
+    <div class="alert alert-primary w-100 mt-2" role="alert">短評
+        <button type="button" id="btnEvaluation" class="btn btn-success btn-sm text-white float-right"
+                style="margin-top: -3px;">
+            寫短評
+        </button>
+    </div>
+    <div class="reply pl-2 pr-2">
+        <#--短評列表-->
+        <#list evaluationList as evaluation>
             <div>
-                <span class="pt-1 small text-black-50 mr-2">${evaluation.createTime?string('MM-dd')}</span>
-                <span class="mr-2 small pt-1">${evaluation.member.nickname}</span>
-                <span class="stars mr-2" data-score="${evaluation.score}"></span>
+                <div>
+                    <span class="pt-1 small text-black-50 mr-2">${evaluation.createTime?string('MM-dd')}</span>
+                    <span class="mr-2 small pt-1">${evaluation.member.nickname}</span>
+                    <span class="stars mr-2" data-score="${evaluation.score}"></span>
 
-                <button type="button" data-evaluation-id="${evaluation.evaluationId}"
-                        class="btn btn-success btn-sm text-white float-right" style="margin-top: -3px;">
-                    <img style="width: 24px;margin-top: -5px;" class="mr-1"
-                         src="https://img3.doubanio.com/f/talion/7a0756b3b6e67b59ea88653bc0cfa14f61ff219d/pics/card/ic_like_gray.svg"/>
-                    <span>${evaluation.enjoy}</span>
-                </button>
+                    <button type="button" data-evaluation-id="${evaluation.evaluationId}"
+                            class="btn btn-success btn-sm text-white float-right" style="margin-top: -3px;">
+                        <img style="width: 24px;margin-top: -5px;" class="mr-1"
+                             src="https://img3.doubanio.com/f/talion/7a0756b3b6e67b59ea88653bc0cfa14f61ff219d/pics/card/ic_like_gray.svg"/>
+                        <span>${evaluation.enjoy}</span>
+                    </button>
+                </div>
+
+                <div class="row mt-2 small mb-3">
+                    ${evaluation.content}
+                </div>
+                <hr/>
             </div>
-
-            <div class="row mt-2 small mb-3">
-                ${evaluation.content}
-            </div>
-            <hr/>
-        </div>
-    </#list>
-
-</div>
+        </#list>
+    </div>
 </div>
 
 
@@ -184,10 +208,10 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-body">
-                您需要登录才可以操作哦~
+                您需要登錄才可以操作哦~
             </div>
             <div class="modal-footer">
-                <a href="/login.html" type="button" class="btn btn-primary">去登录</a>
+                <a href="/login.html" type="button" class="btn btn-primary">去登錄</a>
             </div>
         </div>
     </div>
@@ -199,13 +223,13 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-body">
-                <h6>为"从 0 开始学爬虫"写短评</h6>
+                <h6>為"${book.bookName}"寫短評</h6>
                 <form id="frmEvaluation">
                     <div class="input-group  mt-2 ">
                         <span id="score"></span>
                     </div>
                     <div class="input-group  mt-2 ">
-                        <input type="text" id="content" name="content" class="form-control p-4" placeholder="这里输入短评">
+                        <input type="text" id="content" name="content" class="form-control p-4" placeholder="這裡輸入短評">
                     </div>
                 </form>
             </div>
@@ -218,3 +242,4 @@
 
 </body>
 </html>
+

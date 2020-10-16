@@ -100,4 +100,19 @@ public class MemberController {
         }
         return result;
     }
+    @PostMapping("/evaluate")
+    @ResponseBody
+    public Map evaluate(Long memberId,Long bookId,Integer score,String content){
+        Map result = new HashMap();
+        try {
+            memberService.evaluate(memberId, bookId,score,content);
+            result.put("code", "0");
+            result.put("msg", "success");
+        } catch (BussinessException ex) {
+            ex.printStackTrace();
+            result.put("code", ex.getCode());
+            result.put("msg", ex.getMsg());
+        }
+        return result;
+    }
 }

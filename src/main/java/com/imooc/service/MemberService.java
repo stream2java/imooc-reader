@@ -1,5 +1,6 @@
 package com.imooc.service;
 
+import com.imooc.reader.entity.Evaluation;
 import com.imooc.reader.entity.Member;
 import com.imooc.reader.entity.MemberReadState;
 
@@ -31,4 +32,13 @@ public interface MemberService {
      */
     public MemberReadState updateMemberReadState(Long memberId, Long bookId ,Integer readState);
 
+    /**
+     * 發布新的短評
+     * @param memberId 會員編號
+     * @param bookId 圖書編號
+     * @param score 分數
+     * @param content 內容
+     * @return 短評對象
+     */
+    public Evaluation evaluate(Long memberId,Long bookId, Integer score,String content);
 }
