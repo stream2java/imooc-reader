@@ -41,4 +41,11 @@ public interface MemberService {
      * @return 短評對象
      */
     public Evaluation evaluate(Long memberId,Long bookId, Integer score,String content);
+
+    /**
+     * 評論點讚
+     * @param evaluationId 評論編號
+     * @return 短評對象
+     */
+    public Evaluation enjoy(Long evaluationId);
 }
