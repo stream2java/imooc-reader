@@ -2,7 +2,7 @@ package com.imooc.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.imooc.reader.entity.Book;
-import com.imooc.service.BookService;
+import com.imooc.reader.service.BookService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;

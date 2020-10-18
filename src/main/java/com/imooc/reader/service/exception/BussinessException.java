@@ -1,4 +1,4 @@
-package com.imooc.service.exception;
+package com.imooc.reader.service.exception;
 
 public class BussinessException extends RuntimeException {
     private String code;

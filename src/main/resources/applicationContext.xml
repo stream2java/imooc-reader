@@ -47,10 +47,11 @@
         <property name="suffix" value=".ftl"/>
     </bean>
 
-        <!-- Mybatis與spring整合配置   -->
+    <!-- Mybatis與spring整合配置   -->
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://localhost:3306/imooc_reader?useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=Asia/Shanghai&amp;allowPublicKeyRetrieval=true"/>
+        <property name="url"
+                  value="jdbc:mysql://localhost:3306/imooc_reader?useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=Asia/Shanghai&amp;allowPublicKeyRetrieval=true"/>
         <property name="username" value="root"/>
         <property name="password" value="Qas76431"/>
         <property name="initialSize" value="5"/>
@@ -64,7 +65,7 @@
         <!--     mybatis配置位置       -->
         <property name="configLocation" value="classpath:mybatis-config.xml"/>
     </bean>
-        <!--  mybatis掃描器  -->
+    <!--  mybatis掃描器  -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.imooc.reader.mapper"/>
 
@@ -95,6 +96,12 @@
                 </constructor-arg>
             </bean>
         </property>
-    </bean>
 
+    </bean>
+    <!--   開啟springTask註解     -->
+    <task:annotation-driven/>
+
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding" value="UTF-8"></property>
+    </bean>
 </beans>
