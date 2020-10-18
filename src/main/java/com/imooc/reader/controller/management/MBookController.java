@@ -1,5 +1,6 @@
 package com.imooc.reader.controller.management;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.imooc.reader.entity.Book;
 import com.imooc.reader.service.BookService;
 import com.imooc.reader.service.exception.BussinessException;
@@ -78,5 +79,23 @@ public class MBookController {
             result.put("msg", e.getMsg());
         }
         return result;
+    }
+    @GetMapping("/list")
+    @ResponseBody
+    public Map list(Integer page, Integer limit){
+        if(page==null){
+            page=1;
+        }
+        if (limit==null){
+            limit=10;
+        }
+        IPage<Book> pageObject = bookService.paging(null, null, page, limit);
+        Map result = new HashMap();
+//        layui要求的四個返回值
+        result.put("code","0");
+        result.put("msg","success");
+        result.put("data",pageObject.getRecords());
+        result.put("count",pageObject.getTotal());
+        return  result;
     }
 }
