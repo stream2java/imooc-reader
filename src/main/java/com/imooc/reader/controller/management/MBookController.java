@@ -31,7 +31,7 @@ public class MBookController {
     private BookService bookService;
 
     @GetMapping("/index.html")
-    public ModelAndView showBook(){
+    public ModelAndView showBook() {
         return new ModelAndView("/management/book");
     }
 
@@ -54,7 +54,7 @@ public class MBookController {
 
     @PostMapping("/create")
     @ResponseBody
-    public Map createBook(Book book){
+    public Map createBook(Book book) {
         Map result = new HashMap();
         try {
             book.setEvaluationQuantity(0);
@@ -66,29 +66,66 @@ public class MBookController {
             bookService.createBook(book);
             result.put("code", "0");
             result.put("msg", "success");
-        }catch (BussinessException ex){
+        } catch (BussinessException ex) {
             ex.printStackTrace();
             result.put("code", ex.getCode());
             result.put("msg", ex.getMsg());
         }
         return result;
     }
+
     @GetMapping("/list")
     @ResponseBody
-    public Map list(Integer page,Integer limit){
-        if(page==null){
-            page=1;
+    public Map list(Integer page, Integer limit) {
+        if (page == null) {
+            page = 1;
         }
-        if ((limit==null)){
-            limit=10;
+        if ((limit == null)) {
+            limit = 10;
         }
         IPage<Book> pageObject = bookService.paging(null, null, page, limit);
-        Map result =new HashMap();
-        result.put("code","0");
-        result.put("msg","success");
-        result.put("data",pageObject.getRecords());//當前頁面數據
-        result.put("count",pageObject.getTotal());
-        return  result;
+        Map result = new HashMap();
+        result.put("code", "0");
+        result.put("msg", "success");
+        result.put("data", pageObject.getRecords());//當前頁面數據
+        result.put("count", pageObject.getTotal());
+        return result;
     }
 
+    @GetMapping("/id/{id}")
+    @ResponseBody
+    public Map selectById(@PathVariable("id") Long bookId) {
+        Book book = bookService.selectById(bookId);
+        Map result = new HashMap();
+
+        result.put("code", "0");
+        result.put("msg", "success");
+        result.put("data", book);
+        return result;
+    }
+
+    @PostMapping("/update")
+    @ResponseBody
+    public Map update(Book book) {
+        Map result = new HashMap();
+        try {
+            Book rawBook = bookService.selectById(book.getBookId());
+            rawBook.setBookName(book.getBookName());
+            rawBook.setSubTitle(book.getSubTitle());
+            rawBook.setAuthor(book.getAuthor());
+            rawBook.setCategoryId(book.getCategoryId());
+            rawBook.setDescription(book.getDescription());
+            Document doc = Jsoup.parse(book.getDescription());
+            String cover = doc.select("img").first().attr("src");
+            rawBook.setCover(cover);
+            bookService.updateBook(rawBook);
+            result.put("code", "0");
+            result.put("msg", "success");
+        } catch (BussinessException e) {
+            e.printStackTrace();
+            result.put("code", e.getCode());
+            result.put("msg", e.getMsg());
+        }
+        return result;
+    }
 }
