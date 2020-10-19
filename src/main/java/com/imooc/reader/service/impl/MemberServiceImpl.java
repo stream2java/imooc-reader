@@ -1,4 +1,4 @@
-package com.imooc.service.impl;
+package com.imooc.reader.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.imooc.reader.entity.Evaluation;
@@ -7,9 +7,9 @@ import com.imooc.reader.entity.MemberReadState;
 import com.imooc.reader.mapper.EvaluationMapper;
 import com.imooc.reader.mapper.MemberMapper;
 import com.imooc.reader.mapper.MemberReadStateMapper;
+import com.imooc.reader.service.exception.BussinessException;
 import com.imooc.reader.util.MD5Utils;
-import com.imooc.service.MemberService;
-import com.imooc.service.exception.BussinessException;
+import com.imooc.reader.service.MemberService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;

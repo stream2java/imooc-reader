@@ -1,4 +1,4 @@
-package com.imooc.service;
+package com.imooc.reader.service;
 
 import com.imooc.reader.mapper.TestMapper;
 import org.springframework.stereotype.Service;

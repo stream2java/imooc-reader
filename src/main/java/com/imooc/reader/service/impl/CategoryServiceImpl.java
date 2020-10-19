@@ -1,9 +1,9 @@
-package com.imooc.service.impl;
+package com.imooc.reader.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.imooc.reader.entity.Category;
 import com.imooc.reader.mapper.CategoryMapper;
-import com.imooc.service.CategoryService;
+import com.imooc.reader.service.CategoryService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;

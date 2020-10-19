@@ -2,10 +2,10 @@ package com.imooc.reader.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.imooc.reader.entity.*;
-import com.imooc.service.BookService;
-import com.imooc.service.CategoryService;
-import com.imooc.service.EvaluationService;
-import com.imooc.service.MemberService;
+import com.imooc.reader.service.BookService;
+import com.imooc.reader.service.CategoryService;
+import com.imooc.reader.service.EvaluationService;
+import com.imooc.reader.service.MemberService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

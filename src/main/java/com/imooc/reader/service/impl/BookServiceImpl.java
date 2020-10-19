@@ -1,11 +1,11 @@
-package com.imooc.service.impl;
+package com.imooc.reader.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.imooc.reader.entity.Book;
 import com.imooc.reader.mapper.BookMapper;
-import com.imooc.service.BookService;
+import com.imooc.reader.service.BookService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
