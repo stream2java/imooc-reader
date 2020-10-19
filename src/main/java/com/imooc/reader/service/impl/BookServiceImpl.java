@@ -36,9 +36,14 @@ public class BookServiceImpl implements BookService {
         return pageObject;
     }
 
-    @Override
+
     public Book selectById(Long bookId) {
         Book book = bookMapper.selectById(bookId);
+        return book;
+    }
+    @Transactional
+    public Book createBook(Book book) {
+        bookMapper.insert(book);
         return book;
     }
 }
