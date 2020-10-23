@@ -106,7 +106,10 @@
                 }
             })
         }
+        $(function(){
 
+            loadMore(true);
+        })
 
         //綁定載入更多按鈕按一下事件
         $(function(){

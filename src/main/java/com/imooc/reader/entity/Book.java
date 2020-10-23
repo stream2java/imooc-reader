@@ -6,16 +6,17 @@ import com.baomidou.mybatisplus.annotation.TableName;
 
 @TableName("book")
 public class Book {
-    @TableId(type = IdType.AUTO)
-    private Long bookId;
-
     public Long getBookId() {
         return bookId;
     }
 
     public void setBookId(Long bookId) {
-        bookId = bookId;
+        this.bookId = bookId;
     }
+
+    @TableId(type = IdType.AUTO)
+    private Long bookId;
+
 
     public String getBookName() {
         return bookName;
