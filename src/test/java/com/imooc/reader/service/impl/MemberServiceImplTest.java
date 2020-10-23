@@ -1,4 +1,4 @@
-package com.imooc.service.impl;
+package com.imooc.reader.service.impl;
 
 import com.imooc.reader.service.MemberService;
 import org.junit.Test;

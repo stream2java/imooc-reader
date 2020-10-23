@@ -1,10 +1,15 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>慕課書評網資料管理系統</title>
     <link rel="stylesheet" href="/resources/layui/css/layui.css">
+    <link rel="stylesheet" href="/resources/bootstrap/bootstrap.css">
+    <link rel="stylesheet" href="/resources/raty/lib/jquery.raty.css">
+    <script src="/resources/jquery.3.3.1.min.js"></script>
+    <script src="/resources/bootstrap/bootstrap.min.js"></script>
+    <script src="/resources/art-template.js"></script>
+
 </head>
 
 <body class="layui-layout-body">
@@ -15,19 +20,39 @@
         <!--系統標題-->
         <div class="layui-logo" style="font-size:18px">慕課書評網資料管理系統</div>
         <!--右側當前使用者資訊-->
-        <ul class="layui-nav layui-layout-right">
-            <li class="layui-nav-item">
-                <a href="javascript:void(0)">
-                    <!--圖示-->
-                    <span class="layui-icon layui-icon-user" style="font-size: 20px">
+
+
+        <#if loginUser??>
+        <#--                <li class="layui-nav-item"><a href="">${loginUser.username}</a></li>-->
+            <ul class="layui-nav layui-layout-right">
+                <li class="layui-nav-item">
+                    <a href="javascript:void(0)">
+                        <!--图标-->
+                        <span class="layui-icon layui-icon-user" style="font-size: 20px">
                     </span>
-                    <!--使用者資訊-->
-                    admin
-                </a>
-            </li>
-            <!--登出按鈕-->
-            <li class="layui-nav-item"><a href="/management/logout">註銷</a></li>
-        </ul>
+                        ${loginUser.username}
+                    </a>
+                </li>
+                <!--注销按钮-->
+                <li class="layui-nav-item"><a href="/management/logout">登出</a></li>
+            </ul>
+        <#else>
+
+<#--            <script>-->
+<#--                window.alert("使用前請先登入");-->
+<#--                document.location.href = "/management/login.html"</script>-->
+        <script>
+            window.onload = function() {
+                document.location.href = "/management/login.html";
+                // $("#exampleModalCenter").modal("show");
+            };
+
+        </script>
+
+        </#if>
+        <!--登出按鈕-->
+
+
     </div>
     <!--左側功能表列-->
     <div class="layui-side layui-bg-black">
@@ -45,7 +70,6 @@
                             </a></dd>
                     </dl>
                 </li>
-
 
 
             </ul>
@@ -72,6 +96,20 @@
     //刷新折疊菜單
     layui.element.render('nav');
 </script>
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                您需要登錄才可以操作哦~
+            </div>
+            <div class="modal-footer">
+                <a href="/management/login.html" type="button" class="btn btn-primary">去登錄</a>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
 

@@ -1,6 +1,6 @@
-package com.imooc.service;
+package com.imooc.reader.service.impl;
 
-import com.imooc.reader.service.TestService;
+import com.imooc.reader.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -8,17 +8,15 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
 
+import static org.junit.Assert.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
-public class TestServiceTest {
+public class UserServiceImplTest {
     @Resource
-    private TestService testService;
+    private UserService userService;
 
     @Test
-    public void batchImport() {
-        testService.batchImport();
-        System.out.println("批量導入成功");
+    public void createUser() {
+        userService.createUser("admin01","123456");
     }
-
-
 }

@@ -1,4 +1,4 @@
-package com.imooc.service.impl;
+package com.imooc.reader.service.impl;
 
 import com.imooc.reader.entity.Category;
 import com.imooc.reader.service.CategoryService;

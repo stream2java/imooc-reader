@@ -41,5 +41,13 @@ public class EvaluationServiceImpl implements EvaluationService {
         return evaluationList;
     }
 
+    public List<Evaluation> selectAll() {
+        List<Evaluation> list = evaluationMapper.selectList(new QueryWrapper<>());
+        return list;
+    }
 
+    @Override
+    public Evaluation changeState(Long evaluationId, String state) {
+        return null;
+    }
 }

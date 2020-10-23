@@ -1,4 +1,4 @@
-package com.imooc.service.impl;
+package com.imooc.reader.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.imooc.reader.entity.Book;

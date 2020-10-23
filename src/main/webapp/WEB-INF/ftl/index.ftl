@@ -106,29 +106,7 @@
                 }
             })
         }
-        $(function(){
-            /*$.ajax({
-                url : "/books" ,
-                data : {p:1},
-                type : "get" ,
-                dataType : "json" ,
-                success : function(json){
-                    console.info(json);
-                    var list = json.records;
-                    for(var i = 0 ; i < list.length ; i++){
-                        var book = json.records[i];
-                        // var html = "<li>" + book.bookName + "</li>";
-                        //將資料結合tpl範本,生成html
-                        var html = template("tpl" , book);
-                        console.info(html);
-                        $("#bookList").append(html);
-                    }
-                    //顯示星型評價元件
-                    $(".stars").raty({readOnly:true});
-                }
-            })*/
-            loadMore(true);
-        })
+
 
         //綁定載入更多按鈕按一下事件
         $(function(){

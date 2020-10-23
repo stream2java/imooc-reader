@@ -7,14 +7,14 @@ import com.baomidou.mybatisplus.annotation.TableName;
 @TableName("book")
 public class Book {
     @TableId(type = IdType.AUTO)
-    private Long BookId;
+    private Long bookId;
 
     public Long getBookId() {
-        return BookId;
+        return bookId;
     }
 
     public void setBookId(Long bookId) {
-        BookId = bookId;
+        bookId = bookId;
     }
 
     public String getBookName() {
