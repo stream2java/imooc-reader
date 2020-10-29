@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en"><head>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <title>慕課書評網</title>
     <meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0,user-scalable=no">
@@ -14,8 +15,9 @@
         .highlight {
             color: red !important;
         }
-        a:active{
-            text-decoration: none!important;
+
+        a:active {
+            text-decoration: none !important;
         }
     </style>
 
@@ -63,57 +65,58 @@
     </script>
 
     <script>
-        $.fn.raty.defaults.path ="./resources/raty/lib/images";
+        $.fn.raty.defaults.path = "./resources/raty/lib/images";
         //loadMore()載入更多資料
         //isReset參數設置為true,代表從第一頁開始查詢,否則按nextPage查詢後續頁
-        function loadMore(isReset){
-            if(isReset == true){
+        function loadMore(isReset) {
+            if (isReset == true) {
                 $("#bookList").html("");
                 $("#nextPage").val(1);
             }
             var nextPage = $("#nextPage").val();
-            var categoryId= $("#categoryId").val();
+            var categoryId = $("#categoryId").val();
             var order = $("#order").val();
 
             $.ajax({
-                url : "/books" ,
-                data : {p:nextPage,"categoryId":categoryId , "order":order},
-                type : "get" ,
-                dataType : "json" ,
-                success : function(json){
+                url: "/books",
+                data: {p: nextPage, "categoryId": categoryId, "order": order},
+                type: "get",
+                dataType: "json",
+                success: function (json) {
                     console.info(json);
                     var list = json.records;
-                    for(var i = 0 ; i < list.length ; i++){
+                    for (var i = 0; i < list.length; i++) {
                         var book = json.records[i];
                         // var html = "<li>" + book.bookName + "</li>";
                         //將資料結合tpl範本,生成html
-                        var html = template("tpl" , book);
+                        var html = template("tpl", book);
                         console.info(html);
                         $("#bookList").append(html);
                     }
                     //顯示星型評價元件
-                    $(".stars").raty({readOnly:true});
+                    $(".stars").raty({readOnly: true});
 
                     //判斷是否到最後一頁
-                    if(json.current < json.pages){
+                    if (json.current < json.pages) {
                         $("#nextPage").val(parseInt(json.current) + 1);
                         $("#btnMore").show();
                         $("#divNoMore").hide();
-                    }else{
+                    } else {
                         $("#btnMore").hide();
                         $("#divNoMore").show();
                     }
                 }
             })
         }
-        $(function(){
+
+        $(function () {
 
             loadMore(true);
         })
 
         //綁定載入更多按鈕按一下事件
-        $(function(){
-            $("#btnMore").click(function(){
+        $(function () {
+            $("#btnMore").click(function () {
                 loadMore();
             })
 
@@ -126,7 +129,7 @@
                 loadMore(true);
             })
 
-            $(".order").click(function(){
+            $(".order").click(function () {
                 $(".order").removeClass("highlight");
                 $(".order").addClass("text-black-50");
                 $(this).addClass("highlight");
@@ -143,14 +146,16 @@
         <ul class="nav">
             <li class="nav-item">
                 <a href="/">
-                    <img src="https://m.imooc.com/static/wap/static/common/img/logo2.png" class="mt-1" style="width: 100px">
+                    <img src="https://m.imooc.com/static/wap/static/common/img/logo2.png" class="mt-1"
+                         style="width: 100px">
                 </a>
             </li>
 
         </ul>
         <#if loginMember??>
             <h6 class="mt-1">
-                <img style="width: 2rem;margin-top: -5px" class="mr-1" src="./images/user_icon.png">${loginMember.nickname}
+                <img style="width: 2rem;margin-top: -5px" class="mr-1"
+                     src="./images/user_icon.png">${loginMember.nickname}
             </h6>
         <#else>
             <a href="/login.html" class="btn btn-light btn-sm">
@@ -170,7 +175,8 @@
             <span data-category="-1" style="cursor: pointer" class="highlight  font-weight-bold category">全部</span>
             |
             <#list categoryList as category>
-                <a style="cursor: pointer" data-category="${category.categoryId}" class="text-black-50 font-weight-bold category">${category.categoryName}</a>
+                <a style="cursor: pointer" data-category="${category.categoryId}"
+                   class="text-black-50 font-weight-bold category">${category.categoryName}</a>
                 <#if category_has_next>|</#if>
             </#list>
 
@@ -178,9 +184,11 @@
         </div>
 
         <div class="col-8 mt-2">
-            <span data-order="quantity" style="cursor: pointer" class="order highlight  font-weight-bold mr-3">按熱度</span>
+            <span data-order="quantity" style="cursor: pointer"
+                  class="order highlight  font-weight-bold mr-3">按熱度</span>
 
-            <span data-order="score" style="cursor: pointer" class="order text-black-50 mr-3 font-weight-bold">按評分</span>
+            <span data-order="score" style="cursor: pointer"
+                  class="order text-black-50 mr-3 font-weight-bold">按評分</span>
         </div>
     </div>
     <div class="d-none">
@@ -192,7 +200,6 @@
     <div id="bookList">
 
 
-
     </div>
     <button type="button" id="btnMore" data-next-page="1" class="mb-5 btn btn-outline-primary btn-lg btn-block">
         點擊載入更多...
@@ -200,5 +207,6 @@
     <div id="divNoMore" class="text-center text-black-50 mb-5" style="display: none;">沒有其他資料了</div>
 </div>
 
-</body></html>
+</body>
+</html>
 

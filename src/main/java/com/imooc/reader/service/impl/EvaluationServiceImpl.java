@@ -1,6 +1,8 @@
 package com.imooc.reader.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.imooc.reader.entity.Book;
 import com.imooc.reader.entity.Evaluation;
 import com.imooc.reader.entity.Member;
@@ -50,4 +52,15 @@ public class EvaluationServiceImpl implements EvaluationService {
     public Evaluation changeState(Long evaluationId, String state) {
         return null;
     }
+
+    @Override
+    public IPage<Evaluation> paging(Integer page, Integer rows) {
+        Page<Evaluation> p = new Page<>(page, rows);
+        QueryWrapper<Evaluation> queryWrapper = new QueryWrapper<>();
+        Page<Evaluation> pageObject = evaluationMapper.selectPage(p, queryWrapper);
+      
+        return pageObject;
+    }
+
+
 }
