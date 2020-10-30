@@ -34,14 +34,16 @@
         , page: true //開啟分頁
         , limit :20
         , cols: [[ //表頭
-            {field:"createTime" , title: '發佈時間', width: '200'}
+            {field:"createTime" , title: '發佈時間', width: '200', templet: function (d) {
+        return layui.util.toDateString(d.createTime, "yyyy-MM-dd HH:mm:ss");
+    }}
             , {field: 'content', title: '短評', width: '400'}
             , {type:"space" ,title: '圖書', width: '200', templet: function (d) {
-                    return d.bookId;
+                    return d.book.bookName;
                 }}
             , {type: "space" , title: '用戶名', width: '100', templet: function (d) {
                     console.info(d);
-                    return d.memberId;
+                    return d.member.nickname;
                 }}
             , {type: 'space', title: '操作', width: '100' , templet : function(d){
                     if(d.state=="enable") {

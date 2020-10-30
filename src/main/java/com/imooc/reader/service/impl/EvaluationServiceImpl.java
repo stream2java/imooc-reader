@@ -16,8 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
+
 @Service("evaluationService")
-@Transactional(propagation = Propagation.NOT_SUPPORTED,readOnly = true)
+@Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
 public class EvaluationServiceImpl implements EvaluationService {
 
     @Resource
@@ -26,17 +27,18 @@ public class EvaluationServiceImpl implements EvaluationService {
     MemberMapper memberMapper;
     @Resource
     BookMapper bookMapper;
+
     @Override
     public List<Evaluation> selectById(Long bookId) {
         Book book = bookMapper.selectById(bookId);
         QueryWrapper<Evaluation> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("book_Id",bookId);
-        queryWrapper.eq("state","enable");
+        queryWrapper.eq("book_Id", bookId);
+        queryWrapper.eq("state", "enable");
         queryWrapper.orderByDesc("create_time");
         List<Evaluation> evaluationList = evaluationMapper.selectList(queryWrapper);
-        for (Evaluation eva:evaluationList) {
+        for (Evaluation eva : evaluationList) {
             Member member = memberMapper.selectById(eva.getMemberId());
-            eva.setMember(member) ;
+            eva.setMember(member);
             eva.setBook(book);
 
         }
@@ -58,7 +60,13 @@ public class EvaluationServiceImpl implements EvaluationService {
         Page<Evaluation> p = new Page<>(page, rows);
         QueryWrapper<Evaluation> queryWrapper = new QueryWrapper<>();
         Page<Evaluation> pageObject = evaluationMapper.selectPage(p, queryWrapper);
-      
+        for (Evaluation evaluation :
+                pageObject.getRecords()) {
+            Member member = memberMapper.selectById(evaluation.getMemberId());
+            Book book = bookMapper.selectById(evaluation.getBookId());
+            evaluation.setMember(member);
+            evaluation.setBook(book);
+        }
         return pageObject;
     }
 
