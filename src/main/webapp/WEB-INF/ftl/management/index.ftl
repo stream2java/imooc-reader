@@ -38,16 +38,16 @@
             </ul>
         <#else>
 
-<#--            <script>-->
-<#--                window.alert("使用前請先登入");-->
-<#--                document.location.href = "/management/login.html"</script>-->
-        <script>
-            window.onload = function() {
-                document.location.href = "/management/login.html";
-                // $("#exampleModalCenter").modal("show");
-            };
+        <#--            <script>-->
+        <#--                window.alert("使用前請先登入");-->
+        <#--                document.location.href = "/management/login.html"</script>-->
+            <script>
+                window.onload = function () {
+                    document.location.href = "/management/login.html";
+                    // $("#exampleModalCenter").modal("show");
+                };
 
-        </script>
+            </script>
 
         </#if>
         <!--登出按鈕-->
@@ -66,7 +66,7 @@
                     <a href="javascript:void(0)">資料管理</a>
                     <dl class="layui-nav-child module" data-node-id="xxx">
                         <dd><a href="/management/book/index.html" target="ifmMain">圖書管理</a></dd>
-                        <dd><a href="短評管理.html" target="ifmMain">短評管理
+                        <dd><a href="/management/evaluation/index.html" target="ifmMain">短評管理
                             </a></dd>
                     </dl>
                 </li>
@@ -96,20 +96,7 @@
     //刷新折疊菜單
     layui.element.render('nav');
 </script>
-<!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-     aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-body">
-                您需要登錄才可以操作哦~
-            </div>
-            <div class="modal-footer">
-                <a href="/management/login.html" type="button" class="btn btn-primary">去登錄</a>
-            </div>
-        </div>
-    </div>
-</div>
+
 </body>
 </html>
 

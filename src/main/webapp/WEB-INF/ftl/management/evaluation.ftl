@@ -13,7 +13,13 @@
 
 </head>
 <body>
-
+<#if !loginUser??>
+    <script>
+        window.onload = function () {
+            document.location.href = "/management/login.html";
+        };
+    </script>
+</#if>
 
 <div class="layui-container">
     <blockquote class="layui-elem-quote">近期短評列表</blockquote>
@@ -35,7 +41,7 @@
         , limit :20
         , cols: [[ //表頭
             {field:"createTime" , title: '發佈時間', width: '200', templet: function (d) {
-        return layui.util.toDateString(d.createTime, "yyyy-MM-dd HH:mm:ss");
+        return layui.util.toDateString(d.createTime, "yyyy-MM-dd HH:ss");
     }}
             , {field: 'content', title: '短評', width: '400'}
             , {type:"space" ,title: '圖書', width: '200', templet: function (d) {

@@ -21,8 +21,13 @@
 
 </head>
 <body>
-
-
+<#if !loginUser??>
+    <script>
+        window.onload = function () {
+            document.location.href = "/management/login.html";
+        };
+    </script>
+</#if>
 <div class="layui-container">
     <blockquote class="layui-elem-quote">圖書列表</blockquote>
     <!-- 資料表格 -->
